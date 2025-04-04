@@ -220,7 +220,7 @@ const SearchNavigationBar = () => {
       <div className="flex w-[543px] px-4 py-3 items-center gap-2 shrink-0 rounded-lg border border-[#EAECEE] bg-white">
         <SearchIcon />
       </div>
-      <Button onClick={handleQuickOrderClick} />
+      <Button onClick={handleQuickOrderClick} label="Quick Order Form" />
     </div>
   );
 };
