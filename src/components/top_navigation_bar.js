@@ -28,7 +28,7 @@ const ContactInfo = ({ icon, text, textColor = "#1071FF" }) => (
       <div className="w-[24px] h-[24px] shrink-0">{icon}</div>
     </div>
     <div
-      className={`flex w-[129px] h-[30px] flex-col justify-center text-sm font-semibold leading-[170%]`}
+      className={`flex w-full h-[30px] flex-col justify-center text-sm font-semibold leading-[170%]`}
       style={{ color: textColor }}
     >
       {text}
