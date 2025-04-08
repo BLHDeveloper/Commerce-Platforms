@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./button";
+import Checkbox from "./checkbox";
 const Footer = () => {
     const footerSections = [
       {
@@ -69,33 +70,7 @@ const Footer = () => {
               {/* Button */}
               <Button label="Sign up for newsletter" className="w-full" />
               {/* checkbox */}
-              <label className="flex w-[301px] items-center gap-[8px]">
-                <input
-                  type="checkbox"
-                  className="hidden peer"
-                  id="data-management-checkbox"
-                />
-                <svg
-                  className="w-4 h-4 border rounded  stroke-[#ffffff]  peer-checked:stroke-[#1071FF] border-[#1071FF] bg-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="white"
-                  stroke="#1071FF"
-                  strokeWidth="2"
-                >
-                  <path
-                    d="M6 12l4 4 8-8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span className="text-sm text-[#0C0C0C]">
-                  I accept{" "}
-                  <a href="#" className="text-[#1071FF] ">
-                    the personal data management.
-                  </a>
-                </span>
-              </label>
+            <Checkbox />
             </div>
           </div>
           {/* footer sections with links */}

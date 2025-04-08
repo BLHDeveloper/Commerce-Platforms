@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "./button";
-import SearchIcon from "./SearchIcon";
+import SearchIcon from "./searchIcon";
 import Logo from "./logo";
 
 const SearchNavigationBar = () => {

@@ -16,3 +16,8 @@ body {
   background: var(--background);
   font-family: "Basier Circle"; /* Appliquez la police ici */
 }
+.brands-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}

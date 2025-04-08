@@ -1,5 +1,5 @@
 "use client";
-import "./globals.css";
+import './globals.css'; // Assurez-vous que le chemin est correct
 import Navbar from "../components/navbar.jsx";
 import Footer from "../components/footer.jsx";
 export default function RootLayout({ children }) {
