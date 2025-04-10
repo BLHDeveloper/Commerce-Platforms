@@ -1,29 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import Badge from "@mui/material/Badge";
 
-const DropdownItem = ({ label }) => (
-  <div className="flex items-center gap-1">
-    <div className="text-[#0C0C0C] text-sm font-normal leading-[170%]">
-      {label}
+const DropdownItem = ({ label, dynamicContent, isOpen, onClick, onSelect }) => {
+  return (
+    <div className="inline-flex flex-col items-start gap-1">
+      <div className="flex items-center gap-1 cursor-pointer" onClick={onClick}>
+        <div className="text-[#0C0C0C] text-sm font-normal leading-[170%]">
+          {label}
+        </div>
+        <div className="w-6 h-6">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d={
+                isOpen
+                  ? "M12 8L6 14L7.41 15.41L12 10.83L16.59 15.41L18 14L12 8Z"
+                  : "M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
+              }
+              fill="#0C0C0C"
+            />
+          </svg>
+        </div>
+      </div>
+      {isOpen && (
+        <div className="flex flex-col items-start absolute mt-6  w-[213px]">
+          {dynamicContent.map((item) => (
+            <div
+              key={item.id}
+              className={`flex  w-[213px] p-2 items-center gap-1 ${
+                item.id === 1
+                  ? "rounded-tl-lg rounded-tr-lg"
+                  : item.id === dynamicContent.length
+                  ? "rounded-bl-lg rounded-br-lg"
+                  : ""
+              } border border-[#EAECEE] bg-white cursor-pointer`}
+              onClick={() => onSelect(item.content)}
+            >
+              <div className="text-[#0C0C0C] text-[14px] font-normal leading-[170%] flex-[1_0_0]">
+                {item.content}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-    <div className="w-6 h-6">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-      >
-        <path
-          d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
-          fill="#0C0C0C"
-        />
-      </svg>
-    </div>
-  </div>
-);
+  );
+};
+
 const ContactInfo = ({ icon, text, textColor = "#1071FF" }) => (
-  <div className="flex items-center gap-2">
+  <div
+    className="flex items-center gap-2 cursor-pointer"
+    onClick={() => (window.location.href = `tel:${text.replace(/\s+/g, "")}`)}
+  >
     <div className="w-5 h-5">
       <div className="w-[24px] h-[24px] shrink-0">{icon}</div>
     </div>
@@ -39,8 +72,8 @@ const ContactInfo = ({ icon, text, textColor = "#1071FF" }) => (
 const Divider = () => <div className="w-[1px] h-[28px] bg-[#434447]"></div>;
 
 const BadgeInfo = ({ icon, badgeContent, text }) => (
-  <div className="flex items-center gap-4">
-    <div className="w-[24px] h-[24px] shrink-0">
+  <div className="flex items-center gap-2">
+    <div className="flex w-[24px] h-[24px] shrink-0">
       <Badge badgeContent={badgeContent} color="error">
         {icon}
       </Badge>
@@ -51,29 +84,124 @@ const BadgeInfo = ({ icon, badgeContent, text }) => (
   </div>
 );
 
-const UserInfo = ({ avatar, name, dropdownIcon }) => (
-  <div className="flex justify-end items-start gap-2">
-    <div className="w-[24px] h-[24px]">{avatar}</div>
-    <p className="text-[#0C0C0C] text-[14px] font-normal leading-[170%]">
-      {name}
-    </p>
-    <div className="w-[24px] h-[24px]">{dropdownIcon}</div>
+const UserInfo = ({
+  avatar,
+  name,
+  dropdownIcon,
+  dynamicContent,
+  isOpen,
+  onClick,
+  onSelect,
+  onLogout,
+}) => (
+  <div className="flex flex-col items-end gap-2">
+    <div
+      className="flex justify-end items-start gap-2 cursor-pointer"
+      onClick={onClick}
+    >
+      <div className="w-[24px] h-[24px] shrink-0">{dropdownIcon}</div>
+      <p className="text-[#0C0C0C] text-[14px] font-normal leading-[170%]">
+        {name}
+      </p>
+      <div className="w-[24px] h-[24px]">{avatar}</div>
+    </div>
+    {isOpen && (
+      <div className="flex flex-col items-start absolute mt-6 z-1">
+        {dynamicContent.map((item) => (
+          <div
+            key={item.id}
+            className={`flex w-[186px] p-2 items-center gap-1 ${
+              item.id === 1
+                ? "rounded-tl-lg rounded-tr-lg"
+                : item.id === dynamicContent.length
+                ? "rounded-bl-lg rounded-br-lg"
+                : ""
+            } border border-[#EAECEE] bg-white cursor-pointer`}
+            onClick={() => onSelect(item)}
+          >
+            <div className="text-[#0C0C0C] text-[14px] font-normal leading-[170%] flex-[1_0_0]">
+              {item.content}
+            </div>
+          </div>
+        ))}
+        <button
+          className="flex w-[186px] p-2 justify-center items-center gap-1 rounded-b-lg border border-[#EAECEE] bg-white hover:bg-[#F5F5F5] cursor-pointer"
+          onClick={onLogout}
+        >
+          <div className="flex-[1_0_0] text-[#737B7D] text-center text-[14px] font-normal leading-[170%] font-[Basier_Square]">
+            Log out
+          </div>
+        </button>
+      </div>
+    )}
   </div>
 );
 
 const TopNavigationBar = () => {
-  const dropdownItems = [
-    { label: "Country: Sweden" },
-    { label: "Language: Svenska" },
-    { label: "Currency: $" },
-  ];
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [dropdownItems, setDropdownItems] = useState([
+    {
+      label: "Country: Sweden",
+      dynamicContent: [
+        { id: 1, content: "Sweden" },
+        { id: 2, content: "Norway" },
+        { id: 3, content: "Denmark" },
+      ],
+    },
+    {
+      label: "Language: Svenska",
+      dynamicContent: [
+        { id: 1, content: "Svenska" },
+        { id: 2, content: "English" },
+        { id: 3, content: "Deutsch" },
+      ],
+    },
+    {
+      label: "Currency: $",
+      dynamicContent: [
+        { id: 1, content: "USD" },
+        { id: 2, content: "EUR" },
+        { id: 3, content: "SEK" },
+      ],
+    },
+  ]);
+  const [userName, setUserName] = useState("Username Surname");
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true); // Simule l'état de connexion
+
+  const handleDropdownClick = (index) => {
+    setOpenDropdown(openDropdown === index ? null : index);
+  };
+
+  const handleSelect = (index, content) => {
+    const updatedItems = [...dropdownItems];
+    const baseLabel = updatedItems[index].label.split(":")[0];
+    updatedItems[index].label = `${baseLabel}: ${content}`;
+    setDropdownItems(updatedItems);
+    setOpenDropdown(null);
+  };
+
+  const handleUserLinkClick = (link) => {
+    window.location.href = link; // Redirige vers une autre page
+  };
+
+  const handleLogout = () => {
+    console.log("User logged out"); // Remplacez par la logique de déconnexion réelle
+  };
+
   return (
     <>
       <div className="flex w-full h-[48px] px-[88px] py-2 justify-between items-center bg-[#F6F8FB]">
         {/* left bar */}
         <div className="flex items-start gap-4">
           {dropdownItems.map((item, index) => (
-            <DropdownItem key={index} label={item.label} />
+            <DropdownItem
+              key={index}
+              label={item.label}
+              dynamicContent={item.dynamicContent}
+              isOpen={openDropdown === index}
+              onClick={() => handleDropdownClick(index)}
+              onSelect={(content) => handleSelect(index, content)}
+            />
           ))}
         </div>
         {/* right bar */}
@@ -117,38 +245,69 @@ const TopNavigationBar = () => {
             text="Messages"
           />
           <Divider />
-          {/* User Info */}
-          <UserInfo
-            avatar={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM7.07 18.28C7.5 17.38 10.12 16.5 12 16.5C13.88 16.5 16.51 17.38 16.93 18.28C15.57 19.36 13.86 20 12 20C10.14 20 8.43 19.36 7.07 18.28ZM18.36 16.83C16.93 15.09 13.46 14.5 12 14.5C10.54 14.5 7.07 15.09 5.64 16.83C4.62 15.49 4 13.82 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 13.82 19.38 15.49 18.36 16.83ZM12 6C10.06 6 8.5 7.56 8.5 9.5C8.5 11.44 10.06 13 12 13C13.94 13 15.5 11.44 15.5 9.5C15.5 7.56 13.94 6 12 6ZM12 11C11.17 11 10.5 10.33 10.5 9.5C10.5 8.67 11.17 8 12 8C12.83 8 13.5 8.67 13.5 9.5C13.5 10.33 12.83 11 12 11Z"
-                  fill="#0C0C0C"
-                />
-              </svg>
-            }
-            name="Username Surname"
-            dropdownIcon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M16.59 8.58984L12 13.1698L7.41 8.58984L6 9.99984L12 15.9998L18 9.99984L16.59 8.58984Z"
-                  fill="#0C0C0C"
-                />
-              </svg>
-            }
-          />
+          {/* User Info or Login/Register */}
+          {isUserLoggedIn ? (
+            <UserInfo
+              avatar={
+                <div className="w-6 h-6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d={
+                        openDropdown === "user"
+                          ? "M12 8L6 14L7.41 15.41L12 10.83L16.59 15.41L18 14L12 8Z"
+                          : "M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
+                      }
+                      fill="#0C0C0C"
+                    />
+                  </svg>
+                </div>
+              }
+              name={userName}
+              dropdownIcon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <g clipPath="url(#clip0_906_41589)">
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM7.07 18.28C7.5 17.38 10.12 16.5 12 16.5C13.88 16.5 16.51 17.38 16.93 18.28C15.57 19.36 13.86 20 12 20C10.14 20 8.43 19.36 7.07 18.28ZM18.36 16.83C16.93 15.09 13.46 14.5 12 14.5C10.54 14.5 7.07 15.09 5.64 16.83C4.62 15.49 4 13.82 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 13.82 19.38 15.49 18.36 16.83ZM12 6C10.06 6 8.5 7.56 8.5 9.5C8.5 11.44 10.06 13 12 13C13.94 13 15.5 11.44 15.5 9.5C15.5 7.56 13.94 6 12 6ZM12 11C11.17 11 10.5 10.33 10.5 9.5C10.5 8.67 11.17 8 12 8C12.83 8 13.5 8.67 13.5 9.5C13.5 10.33 12.83 11 12 11Z"
+                      fill="#0C0C0C"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_906_41589">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              }
+              dynamicContent={[
+                { id: 1, content: "Dashboard", link: "/dashboard" },
+                { id: 2, content: "Profile", link: "/profile" },
+                { id: 3, content: "Settings", link: "/settings" },
+                { id: 4, content: "Help", link: "/help" },
+              ]}
+              isOpen={openDropdown === "user"}
+              onClick={() => handleDropdownClick("user")}
+              onSelect={(content) => handleUserLinkClick(content.link)}
+              onLogout={handleLogout}
+            />
+          ) : (
+            <div className="flex items-center gap-2">
+              <div className="text-right text-[#1071FF] text-[14px] font-semibold leading-[170%]">
+                LOGIN / REGISTER
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

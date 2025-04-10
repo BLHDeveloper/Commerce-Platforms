@@ -35,7 +35,7 @@ const SearchIcon = () => {
           className="flex items-start gap-[4px] cursor-pointer justify-between"
           onClick={toggleDropdown}
         >
-          <div className="flex flex-col w-max justify-center h-[24px] text-[#1071FF] font-normal text-[14px] leading-[170%] font-['Basier_Square']">
+          <div className="flex flex-col w-max justify-center h-[24px] text-[#1071FF] font-normal text-[14px] leading-[170%] ">
             {selectedCategory}
           </div>
           <div className="w-[24px] h-[24px]">
@@ -87,7 +87,7 @@ const SearchIcon = () => {
           <input
             type="text"
             placeholder="Search by product or SKU"
-            className="flex-1 text-[#737B7D] font-normal text-[14px] leading-[170%] font-['Basier_Square'] border-none focus:outline-none"
+            className="flex-1 text-[#737B7D] font-normal text-[14px] leading-[170%]  border-none focus:outline-none"
           />
         </div>
       </div>

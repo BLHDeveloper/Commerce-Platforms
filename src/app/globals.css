@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ffffff;
-}
+} */
 @font-face {
   font-family: "Basier Circle";
   src: local("Basier Circle Circle Regular"),

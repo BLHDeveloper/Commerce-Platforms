@@ -38,12 +38,14 @@ const CategoryItem = ({ label, hasIcon }) => (
 );
 
 const NavbarItem = ({ label, icon, badgeContent }) => (
-  <div className="flex flex-col items-center gap-2">
-    <div className="w-[16px] h-[16px]">
-      <Badge badgeContent={badgeContent} color="error">
-        {icon}
-      </Badge>
-    </div>
+  <div className="flex flex-col items-center gap-1">
+    <Badge
+      badgeContent={badgeContent}
+      color="error"
+      className="z-0"
+    >
+      {icon}
+    </Badge>
     <div className="text-[#1071FF] text-[14px] font-semibold leading-[170%]">
       {label}
     </div>
@@ -66,8 +68,8 @@ const CompareIcon = () => (
     <defs>
       <clipPath id="clip0_1_83">
         <rect
-          width="16"
-          height="16"
+          width="24"
+          height="24"
           fill="white"
           transform="translate(0.833328)"
         />
@@ -92,7 +94,7 @@ const FavoritesIcon = () => (
     </g>
     <defs>
       <clipPath id="clip0_1_86">
-        <rect width="16" height="16" fill="white" transform="translate(0.5)" />
+        <rect width="24" height="24" fill="white" transform="translate(0.5)" />
       </clipPath>
     </defs>
   </svg>

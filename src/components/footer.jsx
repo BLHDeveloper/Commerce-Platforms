@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./button";
 import Checkbox from "./checkbox";
+import Input from "./input";
 const Footer = () => {
     const footerSections = [
       {
@@ -52,25 +53,22 @@ const Footer = () => {
             <h2 className="text-xl font-bold text-[#0C0C0C]">
               Sign up for news
             </h2>
-            <p className="w-[301px] text-[#0C0C0C] font-normal text-[14px] leading-[170%] font-['Basier_Square']">
+            <p className="w-[301px] text-[#0C0C0C] font-normal text-[14px] leading-[170%] ">
               Keep up to date with the latest product launches and news. Find
               out more about our brands and get special promo codes.
             </p>
             {/* input */}
-            <div className="flex w-[301px] px-[16px] py-[12px] items-center gap-[8px] rounded-[8px] border border-[#EAECEE] bg-[#FFF]">
-              <input
-                type="email"
-                placeholder="Your e-mail address"
-                className="flex-1 text-[#737B7D] font-normal text-[14px] leading-[170%] font-['Basier_Square'] outline-none bg-transparent"
-              />
-            </div>
+            <Input
+              type="email"
+              placeholder="Your e-mail address"
+              className="w-full"
+            />
             {/* CTA+checkbox */}
-
             <div className="flex flex-col w-[301px] items-start gap-[16px]">
               {/* Button */}
               <Button label="Sign up for newsletter" className="w-full" />
               {/* checkbox */}
-            <Checkbox />
+              <Checkbox />
             </div>
           </div>
           {/* footer sections with links */}
@@ -124,7 +122,7 @@ const Footer = () => {
                   </defs>
                 </svg>
               </div>
-              <p className="text-[#434447] font-normal text-[14px] leading-[170%] font-['Basier_Square']">
+              <p className="text-[#434447] font-normal text-[14px] leading-[170%] ">
                 2021 Cloudflight
               </p>
             </div>
