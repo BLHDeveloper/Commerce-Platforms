@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Badge from "@mui/material/Badge";
-
+import Button from "./button";
+import TextButton from "./textbutton";
+import Input from "./input";
 const DropdownItem = ({ label, dynamicContent, isOpen, onClick, onSelect }) => {
   return (
     <div className="inline-flex flex-col items-start gap-1">
@@ -139,6 +141,15 @@ const UserInfo = ({
 
 const TopNavigationBar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); // État pour la modale d'inscription
+  const [email, setEmail] = useState("");
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const [password, setPassword] = useState("");
+  const isValidPassword = (password) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+      password
+    );
   const [dropdownItems, setDropdownItems] = useState([
     {
       label: "Country: Sweden",
@@ -166,7 +177,7 @@ const TopNavigationBar = () => {
     },
   ]);
   const [userName, setUserName] = useState("Username Surname");
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true); // Simule l'état de connexion
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false); // Simule l'état de connexion
 
   const handleDropdownClick = (index) => {
     setOpenDropdown(openDropdown === index ? null : index);
@@ -303,13 +314,205 @@ const TopNavigationBar = () => {
             />
           ) : (
             <div className="flex items-center gap-2">
-              <div className="text-right text-[#1071FF] text-[14px] font-semibold leading-[170%]">
+              <button
+                className="text-right text-[#1071FF] text-[14px] font-semibold leading-[170%]"
+                onClick={() => setIsLoginModalOpen(true)} // Ouvre la modale
+              >
                 LOGIN / REGISTER
-              </div>
+              </button>
             </div>
           )}
         </div>
       </div>
+
+      {/* Modale de connexion */}
+      {isLoginModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
+          {/* login */}
+          <div className="inline-flex flex-col items-center gap-6 px-6 pt-6 pb-16 rounded-lg bg-white">
+            {/* Header + Close Icon */}
+            <div className="flex flex-col items-end gap-4">
+              <div
+                className="w-6 h-6 cursor-pointer"
+                onClick={() => setIsLoginModalOpen(false)} // Ferme la modale
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <g clipPath="url(#clip0_1985_50219)">
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="#0C0C0C"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1985_50219">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <div className="flex flex-col justify-center items-center gap-4">
+                <h5 className="text-[#0C0C0C] text-center font-bold text-[20px] leading-[130%] w-[498px] font-basier">
+                  Welcome back! Log in
+                </h5>
+                <p className="text-[#0C0C0C] text-center text-[16px] leading-[24px] font-normal font-[Basier_Square]">
+                  Enter your login and password below and complete your order.
+                </p>
+              </div>
+            </div>
+            {/* form */}
+            <div className="flex flex-col items-end gap-4 w-[373px] ">
+              <Input
+                type="email"
+                className="w-full"
+                Label="Login/e-mail"
+                info="(e.g., example@domain.com)"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                status={
+                  email === ""
+                    ? "Default"
+                    : isValidEmail(email)
+                    ? "Success"
+                    : "Error"
+                }
+              />
+              <div class="flex flex-col items-end gap-2 w-[373px]">
+                <Input
+                  type="password"
+                  className="w-full"
+                  Label="Password"
+                  info="8+ characters (e.g., Abc@1234)"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  status={
+                    password === ""
+                      ? "Default"
+                      : isValidPassword(password)
+                      ? "Success"
+                      : "Error"
+                  }
+                />
+                <TextButton linkText="Forgot password?" variant="secondary" />
+              </div>
+            </div>
+            {/* button */} <Button label="Login" className="w-[198px]" />
+            {/*   register link */}
+            <div className="flex justify-center items-center gap-2">
+              <p className="text-[#0C0C0C] text-right text-[14px] leading-[170%] font-normal font-[Basier_Square]">
+                You do not have an account?
+              </p>
+              <TextButton
+                linkText="Register"
+                variant="secondary"
+                onClick={() => {
+                  setIsRegisterModalOpen(true);
+                  setIsLoginModalOpen(false);
+                }} // Ouvre la modale d'inscription
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modale d'inscription */}
+      {isRegisterModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="inline-flex flex-col items-center gap-6 px-6 pt-6 pb-16 rounded-lg bg-white">
+            {/* Header + Close Icon */}
+            <div className="flex flex-col items-end gap-4">
+              <div
+                className="w-6 h-6 cursor-pointer"
+                onClick={() => setIsRegisterModalOpen(false)} // Ferme la modale
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <g clipPath="url(#clip0_1985_50219)">
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="#0C0C0C"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1985_50219">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <div className="flex flex-col justify-center items-center gap-4">
+                <h5 className="text-[#0C0C0C] text-center font-bold text-[20px] leading-[130%] w-[498px] font-basier">
+                  Create an account
+                </h5>
+                <p className="text-[#0C0C0C] text-center text-[16px] leading-[24px] font-normal font-[Basier_Square]">
+                  Enter your details below to create a new account.
+                </p>
+              </div>
+            </div>
+            {/* form */}
+            <div className="flex flex-col items-end gap-4 w-[373px] ">
+              <Input
+                type="email"
+                className="w-full"
+                Label="Email"
+                info="(e.g., example@domain.com)"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                status={
+                  email === ""
+                    ? "Default"
+                    : isValidEmail(email)
+                    ? "Success"
+                    : "Error"
+                }
+              />
+              <div className="flex flex-col items-end gap-2 w-[373px]">
+                <Input
+                  type="password"
+                  className="w-full"
+                  Label="Password"
+                  info="8+ characters (e.g., Abc@1234)"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  status={
+                    password === ""
+                      ? "Default"
+                      : isValidPassword(password)
+                      ? "Success"
+                      : "Error"
+                  }
+                />
+              </div>
+            </div>
+            {/* button */}
+            <Button label="Register" className="w-[198px]" />
+            {/* register link */}
+            <div className="flex justify-center items-center gap-2">
+              <p className="text-[#0C0C0C] text-right text-[14px] leading-[170%] font-normal font-[Basier_Square]">
+                You have an account?
+              </p>
+              <TextButton
+                linkText="Login"
+                variant="secondary"
+                onClick={() => {
+                  setIsRegisterModalOpen(false); // Ferme la modale d'inscription
+                  setIsLoginModalOpen(true); // Ouvre la modale de connexion
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

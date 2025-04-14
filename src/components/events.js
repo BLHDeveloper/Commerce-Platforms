@@ -1,6 +1,6 @@
 import React from "react";
 import Title from "@/components/title";
-import Button from "./button4";
+import Button from "./button";
 const Events = () => {
   const categoriesList = [
     {
@@ -60,7 +60,7 @@ const Events = () => {
                 <p className="text-[#0C0C0C]  text-[16px] font-normal leading-[24px] w-[285px]">
                   {product.Description}
                 </p>
-                <Button label="Read more" />
+                <Button label="Know more" variant="outlineBlue" />
               </div>
             </div>
           ))}

@@ -1,6 +1,6 @@
 "use client";
 import Title from "@/components/title";
-import Button from "./button2";
+import Button from "./button";
 import { useState } from "react";
 import Input from "./input";
 import Dropdown from "./Dropdown";
@@ -285,12 +285,14 @@ export default function Products() {
                       defaultValue={product.quantity}
                       className="w-[71px]"
                     />
+
                     <Dropdown value={product.itemLabel} className="w-[200px]" />
                   </div>
                   <Button
                     label={cart[product.id] ? "Remove to cart" : "Add to cart"}
                     onClick={() => handleAddToCart(product.id)}
                     disabled={!product.stockStatus} // Désactiver si stockStatus est false
+                    icon="right"
                   />
                 </div>
               </div>

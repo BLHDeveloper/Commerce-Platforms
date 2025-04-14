@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './button3'; // Assurez-vous que le chemin est correct
+import Button from './button'; // Assurez-vous que le chemin est correct
 const Advertising = () => {
     return (
       <div className="inline-flex flex-col justify-center items-start gap-[10px] px-[88px] py-4 bg-[#2580FF] mt-[80px] mb-[80px]">
@@ -16,9 +16,7 @@ const Advertising = () => {
               on power tools
             </h1>
           </div>
-          <Button
-            label=" Check offer"
-          />
+          <Button label=" Check offer" variant="secondary"/>
         </div>
       </div>
     );

@@ -56,7 +56,11 @@ const Hints = () => {
                   <p className="text-[#0C0C0C] font-[Basier_Square] text-[16px] font-normal leading-[24px] w-[285px]">
                     {product.Description}
                   </p>
-                  <TextButton linkText="Read more" />
+                  <TextButton
+                    linkText="Read more"
+                    icon="right"
+                    variant="secondary"
+                  />
                 </div>
               </div>
             ))}

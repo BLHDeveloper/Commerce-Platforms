@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './button3'; // Assurez-vous que le chemin est correct
+import Button from './button'; // Assurez-vous que le chemin est correct
 
 const Personalized = () => {
     return (
@@ -18,7 +18,7 @@ const Personalized = () => {
                 </p>
               </div>
               {/* button */}
-              <Button label="Buy this bundle" />
+              <Button label="Buy this bundle" variant="secondary" />
             </div>
           </div>
         </div>

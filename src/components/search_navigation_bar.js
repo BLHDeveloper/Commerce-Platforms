@@ -13,8 +13,11 @@ const SearchNavigationBar = () => {
   return (
     <div className="flex w-full h-[80px] px-[88px] py-4 justify-between items-center bg-white border border-[#EAECEE]">
       <Logo />
-        <SearchIcon />
-      <Button onClick={handleQuickOrderClick} label="Quick Order Form" />
+      <SearchIcon />
+      <Button
+        onClick={handleQuickOrderClick}
+        label="Quick Order Form"
+      />
     </div>
   );
 };

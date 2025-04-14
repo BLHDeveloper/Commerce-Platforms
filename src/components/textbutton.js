@@ -1,56 +1,86 @@
 import React from "react";
 
-const TextButton = ({ onClick = () => {}, linkText, active = false, disabled = false }) => {
+const Icon = ({ direction, color, hoverColor, disabled }) => (
+  <div className="w-6 h-6">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill={color}
+      className={!disabled ? `group-hover:fill-[${hoverColor}]` : ""}
+    >
+      <path
+        d={
+          direction === "left"
+            ? "M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z"
+            : "M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
+        }
+      />
+    </svg>
+  </div>
+);
+
+const TextButton = ({
+  onClick = () => {},
+  linkText,
+  active,
+  disabled,
+  variant = "primary",
+  icon,
+  className,
+}) => {
+  const colors = {
+    primary: { text: "#434447", hover: "#0C0C0C", active: "#737B7D" },
+    secondary: { text: "#1071FF", hover: "#004796", active: "#0E5DC1" },
+    tertiary: { text: "#FFF", hover: "#EAECEE", active: "#E6EFFB" },
+  };
+
+  const color = disabled
+    ? "#CFD2D5"
+    : active
+    ? colors[variant].active
+    : colors[variant].text;
+
+  const hoverColor = disabled ? "" : colors[variant].hover;
+
   return (
-    <>
-      <button
-        className={`flex justify-end items-center gap-1 group ${
-          disabled ? "text-[#CFD2D5] cursor-not-allowed" : active ? "text-[#0E5DC1]" : "text-[#1071FF]"
-        }`}
-        onClick={() => {
-          if (!disabled) {
-            console.log("Button clicked");
-            onClick();
-          }
-        }}
-        disabled={disabled}
+    <button
+      className={`inline-flex justify-center items-center gap-1 group ${
+        className || ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {icon === "left" && (
+        <Icon
+          direction="left"
+          color={color}
+          hoverColor={hoverColor}
+          disabled={disabled}
+        />
+      )}
+      <span
+        className={`${
+          disabled
+            ? "text-[#CFD2D5] cursor-not-allowed"
+            : active
+            ? `text-[${colors[variant].active}] underline`
+            : `text-[${colors[variant].text}] group-hover:text-[${colors[variant].hover}]`
+        } text-[16px] text-base font-normal leading-4`}
       >
-        <span
-          className={`${
-            disabled ? "text-[#CFD2D5]" : active ? "text-[#0E5DC1]" : "text-[#1071FF]"
-          } text-right font-medium text-[16px] leading-[16px] group-hover:text-[#004796]`}
-        >
-          {linkText}
-        </span>
-        <div className="w-[24px] h-[24px]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <g clipPath="url(#clip0_2205_47502)">
-              <path
-                d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
-                fill={disabled ? "#CFD2D5" : active ? "#0E5DC1" : "#1071FF"}
-                className="group-hover:fill-[#004796]"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_2205_47502">
-                <rect width="24" height="24" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-      </button>
-    </>
+        {linkText}
+      </span>
+      {icon === "right" && (
+        <Icon
+          direction="right"
+          color={color}
+          hoverColor={hoverColor}
+          disabled={disabled}
+        />
+      )}
+    </button>
   );
 };
 
 export default TextButton;
-
-
-
-

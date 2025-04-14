@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-/* :root {
+:root {
   --background: #ffffff;
-} */
+  --orange: #FF4E00; /* Ajout de la couleur orange */
+}
 @font-face {
   font-family: "Basier Circle";
   src: local("Basier Circle Circle Regular"),
@@ -20,4 +21,15 @@ body {
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
+}
+
+
+/* Classe utilitaire personnalisée pour Tailwind */
+@layer utilities {
+  .bg-orange-custom {
+    background-color: var(--orange);
+  }
+  .text-orange-custom {
+    color: var(--orange);
+  }
 }

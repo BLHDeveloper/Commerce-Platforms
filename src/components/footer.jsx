@@ -1,47 +1,50 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Button from "./button";
 import Checkbox from "./checkbox";
 import Input from "./input";
 const Footer = () => {
-    const footerSections = [
-      {
-        title: "How to buy",
-        links: [
-          "Payment methods",
-          "Order and pick up",
-          "Order with delivery",
-          "Shopping over the phone",
-          "Returns",
-        ],
-      },
-      {
-        title: "Help",
-        links: ["Contact", "Online Help", "Our Commitments", "Give feedback"],
-      },
-      {
-        title: "Services",
-        links: [
-          "Transport",
-          "Design service",
-          "Paint an plaster mixing service",
-          "Dimensioning and assembly service",
-          "Return of used equipment",
-          "Additional services",
-        ],
-      },
-      {
-        title: "About",
-        links: [
-          "About us",
-          "Press Office",
-          "For suppliers",
-          "Regulations",
-          "Privacy Policy",
-          "Cookies",
-          "Personal Data Request",
-        ],
-      },
-    ];
+  const [email, setEmail] = useState("");
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const footerSections = [
+    {
+      title: "How to buy",
+      links: [
+        "Payment methods",
+        "Order and pick up",
+        "Order with delivery",
+        "Shopping over the phone",
+        "Returns",
+      ],
+    },
+    {
+      title: "Help",
+      links: ["Contact", "Online Help", "Our Commitments", "Give feedback"],
+    },
+    {
+      title: "Services",
+      links: [
+        "Transport",
+        "Design service",
+        "Paint an plaster mixing service",
+        "Dimensioning and assembly service",
+        "Return of used equipment",
+        "Additional services",
+      ],
+    },
+    {
+      title: "About",
+      links: [
+        "About us",
+        "Press Office",
+        "For suppliers",
+        "Regulations",
+        "Privacy Policy",
+        "Cookies",
+        "Personal Data Request",
+      ],
+    },
+  ];
   return (
     // <footer className="flex w-[1440px] px-[88px] pt-[40px] items-start gap-[20px] bg-[#F6F8FB]">
     <footer className="flex flex-col w-full px-[88px] pt-[40px] bg-[#F6F8FB]">
@@ -57,18 +60,34 @@ const Footer = () => {
               Keep up to date with the latest product launches and news. Find
               out more about our brands and get special promo codes.
             </p>
-            {/* input */}
             <Input
               type="email"
               placeholder="Your e-mail address"
               className="w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              status={
+                email === ""
+                  ? "Default"
+                  : isValidEmail(email)
+                  ? "Success"
+                  : "Error"
+              } 
             />
             {/* CTA+checkbox */}
             <div className="flex flex-col w-[301px] items-start gap-[16px]">
               {/* Button */}
               <Button label="Sign up for newsletter" className="w-full" />
               {/* checkbox */}
-              <Checkbox />
+              <label className="flex w-[301px] items-center gap-[8px]">
+                <Checkbox />
+                <span className="text-sm text-[#0C0C0C]">
+                  I accept{" "}
+                  <a href="#" className="text-[#1071FF] ">
+                    the personal data management.
+                  </a>
+                </span>
+              </label>
             </div>
           </div>
           {/* footer sections with links */}

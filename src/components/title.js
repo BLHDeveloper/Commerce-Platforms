@@ -8,7 +8,7 @@ export default function Title({ title, linkText }) {
         <h3 className="flex flex-col justify-center flex-1 self-stretch text-[#0C0C0C] text-[28px] font-bold leading-[130%]">
           {title}
         </h3>
-        <TextButton linkText={linkText}  />
+        <TextButton linkText={linkText} icon="right" variant="secondary" />
       </div>
     </>
   );
