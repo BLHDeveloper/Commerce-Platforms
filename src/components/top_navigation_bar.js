@@ -382,7 +382,7 @@ const TopNavigationBar = () => {
                     : "Error"
                 }
               />
-              <div class="flex flex-col items-end gap-2 w-[373px]">
+              <div className="flex flex-col items-end gap-2 w-[373px]">
                 <Input
                   type="password"
                   className="w-full"

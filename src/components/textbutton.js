@@ -1,23 +1,25 @@
 import React from "react";
 
-const Icon = ({ direction, color, hoverColor, disabled }) => (
+const Icon = ({ direction, color, hoverColor, disabled, customSvg }) => (
   <div className="w-6 h-6">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill={color}
-      className={!disabled ? `group-hover:fill-[${hoverColor}]` : ""}
-    >
-      <path
-        d={
-          direction === "left"
-            ? "M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z"
-            : "M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
-        }
-      />
-    </svg>
+    {customSvg || (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill={color}
+        className={!disabled ? `group-hover:fill-[${hoverColor}]` : ""}
+      >
+        <path
+          d={
+            direction === "left"
+              ? "M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z"
+              : "M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
+          }
+        />
+      </svg>
+    )}
   </div>
 );
 
@@ -29,6 +31,7 @@ const TextButton = ({
   variant = "primary",
   icon,
   className,
+  customSvg, // Ajout de la prop customSvg
 }) => {
   const colors = {
     primary: { text: "#434447", hover: "#0C0C0C", active: "#737B7D" },
@@ -58,6 +61,7 @@ const TextButton = ({
           color={color}
           hoverColor={hoverColor}
           disabled={disabled}
+          customSvg={customSvg} // Passage de customSvg
         />
       )}
       <span
@@ -77,6 +81,7 @@ const TextButton = ({
           color={color}
           hoverColor={hoverColor}
           disabled={disabled}
+          customSvg={customSvg} // Passage de customSvg
         />
       )}
     </button>

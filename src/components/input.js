@@ -30,8 +30,8 @@ const Input = ({
 
   return (
     <>
-      <div class={`flex flex-col items-start gap-1 shrink-0 ${className}`}>
-        <label class="text-[#434447] text-sm font-normal leading-[170%] self-stretch">
+      <div className={`flex flex-col items-start gap-1 shrink-0 ${className}`}>
+        <label className="text-[#434447] text-sm font-normal leading-[170%] self-stretch">
           {Label}
         </label>
         <input
@@ -46,7 +46,7 @@ const Input = ({
           style={{ borderColor }} // Application de la couleur de bordure
         />
         <span
-          class="text-sm font-normal leading-[170%] self-stretch text-[#1071FF]"
+          className="text-sm font-normal leading-[170%] self-stretch text-[#1071FF]"
           style={{ color: infoColor }} // Application de la couleur du texte
         >
           {info}

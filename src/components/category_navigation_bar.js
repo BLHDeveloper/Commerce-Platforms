@@ -1,49 +1,274 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Badge from "@mui/material/Badge";
+import TextButton from "./textbutton";
+import "../styles/globals.css";
+const CategoryItem = ({
+  label,
+  hasIcon,
+  categoryData,
+  activeCategory,
+  setActiveCategory,
+}) => {
+  const contentRef = useRef(null);
+  const scrollIndicatorRef = useRef(null);
 
-const CategoryItem = ({ label, hasIcon }) => (
-  <div className="flex items-center">
-    <div className="text-[#0C0C0C] text-sm font-semibold leading-[170%]">
-      {label}
-    </div>
-    {hasIcon && (
-      <div className="w-[24px] h-[24px]">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
+  // Vérifier si cette catégorie est active
+  const isActive = activeCategory === label;
+
+  const handleClick = () => {
+    // Si déjà active, désactiver, sinon activer cette catégorie
+    if (isActive) {
+      setActiveCategory(null);
+    } else {
+      setActiveCategory(label);
+    }
+  };
+
+  // Fonction pour gérer le défilement et mettre à jour l'indicateur
+  const handleScroll = () => {
+    if (contentRef.current && scrollIndicatorRef.current) {
+      const container = contentRef.current;
+      const scrollIndicator = scrollIndicatorRef.current;
+
+      // Calculer le pourcentage de défilement
+      const scrollPercentage =
+        container.scrollTop / (container.scrollHeight - container.clientHeight);
+
+      // Calculer la position verticale de l'indicateur
+      const maxScrollPosition = 388 - scrollIndicator.clientHeight;
+      const newPosition = scrollPercentage * maxScrollPosition;
+
+      // Mettre à jour la position de l'indicateur
+      scrollIndicator.style.top = `${newPosition}px`;
+    }
+  };
+
+  // Ajouter l'écouteur d'événement de défilement
+  useEffect(() => {
+    const currentRef = contentRef.current;
+    if (currentRef) {
+      currentRef.addEventListener("scroll", handleScroll);
+      return () => currentRef.removeEventListener("scroll", handleScroll);
+    }
+  }, [isActive]);
+
+  return (
+    <>
+      <button className="flex items-center" onClick={handleClick}>
+        <div
+          className={`text-sm font-semibold leading-[170%] ${
+            isActive ? "text-[#1071FF]" : "text-[#0C0C0C]"
+          }`}
         >
-          <g clipPath="url(#clip0_4213_15)">
-            <path
-              d="M16.5902 8.58984L12.0002 13.1698L7.41024 8.58984L6.00024 9.99984L12.0002 15.9998L18.0002 9.99984L16.5902 8.58984Z"
-              fill="#0C0C0C"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_4213_15">
-              <rect
+          {label}
+        </div>
+        {hasIcon && (
+          <div className="w-[24px] h-[24px]">
+            {isActive ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
-                fill="white"
-                transform="translate(0.000244141)"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <g clipPath="url(#clip0_6235_25271)">
+                  <path
+                    d="M12.0002 8L6.00024 14L7.41024 15.41L12.0002 10.83L16.5902 15.41L18.0002 14L12.0002 8Z"
+                    fill="#1071FF"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_6235_25271">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.000244141)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <g clipPath="url(#clip0_4213_15)">
+                  <path
+                    d="M16.5902 8.58984L12.0002 13.1698L7.41024 8.58984L6.00024 9.99984L12.0002 15.9998L18.0002 9.99984L16.5902 8.58984Z"
+                    fill="#0C0C0C"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4213_15">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.000244141)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            )}
+          </div>
+        )}
+      </button>
+      {isActive && categoryData && (
+        <div
+          className="w-[1441px] h-[484px] bg-white absolute left-0 inline-flex justify-center items-center gap-[163px] px-[42px] pt-[32px] pb-[48px] pl-[88px]"
+          style={{ top: "210px" }}
+        >
+          <div className="flex justify-center items-start gap-[121px]">
+            <div className="flex flex-col w-[200px] items-start gap-8">
+              <div className="flex flex-col h-[348px] items-start gap-3 self-stretch">
+                <TextButton
+                  linkText={categoryData.title || "Category"}
+                  variant="secondary"
+                  icon="left"
+                  customSvg={
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <g clipPath="url(#clip0_6241_25595)">
+                        <path
+                          d="M12 2L6.5 11H17.5L12 2ZM12 5.84L13.93 9H10.06L12 5.84ZM17.5 13C15.01 13 13 15.01 13 17.5C13 19.99 15.01 22 17.5 22C19.99 22 22 19.99 22 17.5C22 15.01 19.99 13 17.5 13ZM17.5 20C16.12 20 15 18.88 15 17.5C15 16.12 16.12 15 17.5 15C18.88 15 20 16.12 20 17.5C20 18.88 18.88 20 17.5 20ZM3 21.5H11V13.5H3V21.5ZM5 15.5H9V19.5H5V15.5Z"
+                          fill="#1071FF"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_6241_25595">
+                          <rect width="24" height="24" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                />
+                <div className="flex flex-col items-start gap-3">
+                  {categoryData.primaryCategories &&
+                    categoryData.primaryCategories.map((item, index) => (
+                      <span
+                        key={index}
+                        className="text-black text-base font-normal leading-6"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                </div>
+              </div>
+              <TextButton
+                linkText="View all markets"
+                variant="secondary"
+                icon="right"
               />
-            </clipPath>
-          </defs>
-        </svg>
-      </div>
-    )}
-  </div>
-);
+            </div>
+            <div className="flex w-[488px] items-start content-start gap-x-[198px] gap-y-[48px] flex-wrap">
+              {categoryData.secondaryCategories &&
+                categoryData.secondaryCategories.map((category, index) => (
+                  <div
+                    key={index}
+                    className="flex  flex-col items-start gap-[12px] shrink-0"
+                  >
+                    <TextButton
+                      linkText={category.title}
+                      variant="secondary"
+                      icon="right"
+                    />
+                    <div className="flex flex-col items-start gap-3">
+                      {category.items.map((item, itemIndex) => (
+                        <span
+                          key={itemIndex}
+                          className="text-black text-base font-normal leading-6"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          <div className="flex w-[339px] items-center gap-[41px]">
+            <div
+              ref={contentRef}
+              className="flex flex-col w-[310px] h-[388px] items-start gap-8 shrink-0 overflow-y-auto custom-scrollbar"
+            >
+              {/* logos of brands */}
+              <div className="flex flex-col h-[120px] items-start gap-2 self-stretch">
+                <div className="flex items-start gap-2">
+                  {categoryData.brands &&
+                    categoryData.brands.slice(0, 3).map((brand, index) => (
+                      <div
+                        key={index}
+                        className="w-[95px] h-[56px] flex items-center justify-center rounded-lg bg-[#E6EFFB]"
+                      >
+                        <div className="text-[#434447] text-base font-normal leading-4 text-center">
+                          {brand}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+                <div className="flex items-start gap-2">
+                  {categoryData.brands &&
+                    categoryData.brands.slice(3, 6).map((brand, index) => (
+                      <div
+                        key={index}
+                        className="w-[95px] h-[56px] flex items-center justify-center rounded-lg bg-[#E6EFFB]"
+                      >
+                        <div className="text-[#434447] text-base font-normal leading-4 text-center">
+                          {brand}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+              {/*  */}
+              <div className="flex flex-col items-start gap-3 self-stretch pb-4">
+                {/* promotional card item_mega menu */}
+                {categoryData.promotions &&
+                  categoryData.promotions.map((promo, index) => (
+                    <div
+                      key={index}
+                      className="inline-flex p-[14px] justify-center items-center gap-2 rounded-[32px] border-2 border-[#1071FF]"
+                    >
+                      <div className="w-[40px] h-[40px] rounded-[29px] bg-[url('/images/product_image.png')] bg-[lightgray] bg-center bg-cover bg-no-repeat"></div>
+                      <p className="text-[#0C0C0C] w-[225px] h-[48px] font-[BasierSquare] text-[16px] font-normal leading-[24px]">
+                        {promo.text}
+                        <span className="text-[#FF7E27] w-[225px] h-[48px] font-[BasierSquare] text-[14px] font-semibold leading-[170%] ml-1">
+                          {promo.discount}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+              </div>
+            </div>
+            {/* Custom scrollbar styling */}
+            <div className="w-[6px] h-[388px] flex-shrink-0 relative">
+              <div
+                ref={scrollIndicatorRef}
+                className="w-[6px] h-[173.602px] flex-shrink-0 rounded-[3px] bg-[#CFD2D5] absolute top-0"
+              ></div>
+              <div className="w-[6px] h-[388px] flex-shrink-0 rounded-[3px] bg-[#F6F8FB] absolute top-0 -z-10"></div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 const NavbarItem = ({ label, icon, badgeContent }) => (
   <div className="flex flex-col items-center gap-1">
-    <Badge
-      badgeContent={badgeContent}
-      color="error"
-      className="z-0"
-    >
+    <Badge badgeContent={badgeContent} color="error" className="z-0">
       {icon}
     </Badge>
     <div className="text-[#1071FF] text-[14px] font-semibold leading-[170%]">
@@ -128,17 +353,118 @@ const CartIcon = () => (
 );
 
 const CategoryNavigationBar = () => {
+  // Ajouter un état pour suivre quelle catégorie est active
+  const [activeCategory, setActiveCategory] = useState(null);
+
   const navbarItems = [
     { label: "COMPARE", icon: <CompareIcon />, badgeContent: 3 },
     { label: "FAVORITES", icon: <FavoritesIcon />, badgeContent: 7 },
     { label: "CART", icon: <CartIcon />, badgeContent: 45 },
   ];
+
+  // Données dynamiques pour les catégories
+  const categoryData = {
+    homeAndGarden: {
+      title: "Kitchen",
+      primaryCategories: [
+        "Kitchen, Dining & Bar",
+        "Small kitchen Appliances",
+        "Kitchen Tools and Gadgets",
+        "Cookware",
+        "Bakeware",
+        "Kitchen Storage",
+        "Flatware",
+        "Knives and cutlery",
+        "Bar accessories",
+      ],
+      secondaryCategories: [
+        {
+          title: "Smart Home",
+          items: [
+            "Smart door lock",
+            "Smart plugs",
+            "Smart TVs",
+            "Media Steamers",
+          ],
+        },
+        {
+          title: "Improvements",
+          items: ["Power tools", "Ceiling fans", "Home security"],
+        },
+        {
+          title: "Home Decor",
+          items: ["Blankets", "Candles", "Pillows"],
+        },
+        {
+          title: "Garden & Outdoor",
+          items: ["Gardening Tools", "Grills", "Fire pits", "Hydroponics"],
+        },
+      ],
+      brands: ["LOGO", "LOGO", "LOGO", "LOGO", "LOGO", "LOGO"],
+      promotions: [
+        {
+          text: "ELECTRICAL Grill Mastergrill SUP412",
+          discount: "-30%",
+        },
+        {
+          text: 'All products in "Home & Garden" Category',
+          discount: "20% off",
+        },
+        {
+          text: 'All products in "Home & Garden" Category',
+          discount: "20% off",
+        },
+      ],
+    },
+    motors: {
+      title: "Motors",
+      primaryCategories: [
+        "Car Parts & Accessories",
+        "Motorcycles",
+        "Automotive Tools",
+        "Vehicle Electronics",
+        "Boats",
+        "Car Care Products",
+      ],
+      secondaryCategories: [
+        {
+          title: "Car Parts",
+          items: ["Engines", "Brakes", "Filters", "Lights"],
+        },
+        {
+          title: "Tools",
+          items: ["Diagnostic Tools", "Repair Kits", "Tool Sets"],
+        },
+        {
+          title: "Electronics",
+          items: ["Car Audio", "GPS Devices", "Dash Cameras"],
+        },
+      ],
+      brands: ["BRAND1", "BRAND2", "BRAND3", "BRAND4", "BRAND5", "BRAND6"],
+      promotions: [
+        {
+          text: 'All products in "Home & Garden" Category',
+          discount: "20% off",
+        },
+        {
+          text: 'All products in "Home & Garden" Category',
+          discount: "20% off",
+        },
+      ],
+    },
+  };
+
   const categories = [
-    { label: "HOME & GARDEN", hasIcon: true },
-    { label: "MOTORS", hasIcon: true },
+    {
+      label: "HOME & GARDEN",
+      hasIcon: true,
+      categoryData: categoryData.homeAndGarden,
+    },
+    { label: "MOTORS", hasIcon: true, categoryData: categoryData.motors },
     { label: "ELECTRONICS", hasIcon: false },
     { label: "OFFICE EQUIPMENT", hasIcon: false },
   ];
+
   return (
     <>
       <div className="flex w-full h-[82px] px-[88px] items-center bg-[#F6F8FB] justify-between">
@@ -148,6 +474,9 @@ const CategoryNavigationBar = () => {
               key={index}
               label={category.label}
               hasIcon={category.hasIcon}
+              categoryData={category.categoryData}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
             />
           ))}
         </div>
